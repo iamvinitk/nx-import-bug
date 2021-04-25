@@ -1,10 +1,87 @@
 {
-  
-  
   "version": 2,
-  
-  "projects": {},
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
+  "cli": { "defaultCollection": "@nrwl/react" },
+  "generators": { "@nrwl/react": { "application": { "babel": true } } },
+  "projects": {
+    "lib1": {
+      "root": "libs/lib1",
+      "sourceRoot": "libs/lib1/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/lib1/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/lib1"],
+          "options": {
+            "jestConfig": "libs/lib1/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "lib2": {
+      "root": "libs/lib2",
+      "sourceRoot": "libs/lib2/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/lib2/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/lib2"],
+          "options": {
+            "jestConfig": "libs/lib2/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "react-publishable-lib": {
+      "root": "libs/react-publishable-lib",
+      "sourceRoot": "libs/react-publishable-lib/src",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/libs/react-publishable-lib",
+            "tsConfig": "libs/react-publishable-lib/tsconfig.lib.json",
+            "project": "libs/react-publishable-lib/package.json",
+            "entryFile": "libs/react-publishable-lib/src/index.ts",
+            "external": ["react", "react-dom"],
+            "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+            "assets": [
+              {
+                "glob": "libs/react-publishable-lib/README.md",
+                "input": ".",
+                "output": "."
+              }
+            ]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/react-publishable-lib/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/react-publishable-lib"],
+          "options": {
+            "jestConfig": "libs/react-publishable-lib/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
   }
 }
